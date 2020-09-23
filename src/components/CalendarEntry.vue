@@ -1,12 +1,29 @@
 <template>
-    <div>
-
+    <div id="calendar-entry">
+        <div class="calendar-entry-note">
+            <input type="text" placeholder="New Event" v-model="inputEntry" required />
+            <p class="calendar-entry-day">
+                Day of event: <span class="bold">{{ titleOfActiveDay }}</span>
+            </p>
+            <a class="button is-primary is-small is-outlined"
+                v-on:click="submitEvent(inputEntry)">
+                Submit
+            </a>
+            <p style="color: red; font-size: 13px" v-if="error">
+                You must type something first!
+            </p>
+        </div>
     </div>
 </template>
 
 <script>
     export default {
-        
+        name: 'CalendarEntry',
+        computed: {
+            titleOfActiveDay() {
+                return this.$store.getters.getActiveDay.fullTitle;
+            }
+        }    
     }
 </script>
 
