@@ -13,10 +13,7 @@ const store = new Vuex.Store({
         return state.seedData.find((day) => day.active);
     },
     getEventObject: (state) => ({ dayId, eventDetails }) => {
-      console.log(`state = ${state}`);
-      console.log(`day id = ${dayId}. Event = ${JSON.stringify(eventDetails)}`);
       const dayObject = state.seedData.find(day => day.id === dayId);
-      console.log(`day = ${dayObject.fullTitle}. Events = ${JSON.stringify(dayObject.events)}`);
       return dayObject.events.find(event => event.details === eventDetails);
     }
   },
@@ -56,7 +53,6 @@ const store = new Vuex.Store({
     },
     updateEvent(context, { dayId, originalEventDetails, updatedEventDetails }) {
       const eventObject = context.getters.getEventObject({ dayId, eventDetails: originalEventDetails });
-      console.log(`Original details = ${originalEventDetails}. Event object = ${eventObject}`);
       context.commit('UPDATE_EVENT', { eventObject, updatedEventDetails});
     }
   },
