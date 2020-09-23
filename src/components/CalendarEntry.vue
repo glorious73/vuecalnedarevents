@@ -9,8 +9,8 @@
                 v-on:click="submitEvent(inputEntry)">
                 Submit
             </a>
-            <p style="color: red; font-size: 13px" v-if="error">
-                You must type something first!
+            <p style="color: red; font-size: 13px" v-if="inputError">
+                Please type an event first.
             </p>
         </div>
     </div>
@@ -19,11 +19,26 @@
 <script>
     export default {
         name: 'CalendarEntry',
+        data() {
+            return {
+                inputEntry: '',
+                inputError: false
+            }
+        },
         computed: {
             titleOfActiveDay() {
                 return this.$store.getters.getActiveDay.fullTitle;
             }
-        }    
+        },
+        methods: {
+            submitEvent(eventDetails) {
+                if(eventDetails == '') 
+                    return this.inputError = true;
+                this.$store.dispatch('submitEvent', eventDetails);
+                this.inputEntry = '';
+                this.inputError = false;
+            }
+        } 
     }
 </script>
 
