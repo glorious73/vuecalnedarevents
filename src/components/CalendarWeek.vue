@@ -1,12 +1,24 @@
 <template>
-    <div>
-
+    <div id="calendar-week" class="container">
+        <div class="columns is-mobile">
+            <CalendarDay v-for="day in sharedState.seedData" v-bind:key="day.id" v-bind:day="day" />
+        </div>
     </div>
 </template>
 
 <script>
+    import CalendarDay from './CalendarDay.vue';
+
     export default {
-        
+        name: 'CalendarWeek',
+        data() {
+            return {
+                sharedState: this.$store.state
+            }
+        },
+        components: {
+            CalendarDay: CalendarDay
+        }
     }
 </script>
 
