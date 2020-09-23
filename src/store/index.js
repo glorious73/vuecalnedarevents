@@ -18,11 +18,18 @@ const store = new Vuex.Store({
         state.seedData.map((dayObj) => { 
           (dayObj.id === dayId) ? dayObj.active = true : dayObj.active = false; 
         });
+    },
+    SUBMIT_EVENT(state, DayAndEventDetails) {
+       DayAndEventDetails.activeDay.events.push({ "details": DayAndEventDetails.eventDetails, "edit": false });
     }
   },
   actions: {
     setActiveDay(context, dayId) {
       context.commit('SET_ACTIVE_DAY', dayId);
+    },
+    submitEvent(context, eventDetails) {
+      const activeDay = this.getters.getActiveDay;
+      context.commit('SUBMIT_EVENT', { activeDay, eventDetails});
     }
   },
   modules: {
