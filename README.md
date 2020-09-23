@@ -1,4 +1,5 @@
-# vuecalendarevents
+# Vue Calnedar Events
+This web application was developed as a part of studying the textbook *FullStack Vue*. It is a CRUD application aimed at creating events in a calendar.
 
 ## Project setup
 ```
