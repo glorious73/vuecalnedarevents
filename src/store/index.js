@@ -30,6 +30,11 @@ const store = new Vuex.Store({
         eventObject.details = updatedEventDetails;
         eventObject.edit = false;
     },
+    DELETE_EVENT(state, { dayId, eventDetails }) {
+      const dayObject = state.seedData.find(day => day.id === dayId);
+      const eventIndexToRemove = dayObject.events.findIndex(event => event.details === eventDetails);
+      dayObject.events.splice(eventIndexToRemove, 1);
+    },
     RESET_EDIT_OF_ALL_EVENTS(state) {
       state.seedData.map((dayObj) => {
         dayObj.events.map((event) => {
@@ -54,6 +59,9 @@ const store = new Vuex.Store({
     updateEvent(context, { dayId, originalEventDetails, updatedEventDetails }) {
       const eventObject = context.getters.getEventObject({ dayId, eventDetails: originalEventDetails });
       context.commit('UPDATE_EVENT', { eventObject, updatedEventDetails});
+    },
+    deleteEvent(context, { dayId, eventDetails }) {
+      context.commit('DELETE_EVENT', { dayId, eventDetails });
     }
   },
   modules: {

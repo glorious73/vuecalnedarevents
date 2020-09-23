@@ -43,7 +43,10 @@ export default {
             updatedEventDetails = originalEventDetails;
         this.$store.dispatch('updateEvent', { dayId, originalEventDetails, updatedEventDetails });
         this.newEventDetails = '';
-    }
+      },
+      deleteEvent(dayId, eventDetails) {
+          this.$store.dispatch('deleteEvent', { dayId, eventDetails});
+      }
   }
 };
 </script>
