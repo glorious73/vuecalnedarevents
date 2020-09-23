@@ -34,6 +34,17 @@ export default {
       return `background-color: ${randomColor}`;
     },
   },
+  methods: {
+      editEvent(dayId, eventDetails) {
+          this.$store.dispatch('setEditEvent', { dayId, eventDetails });
+      },
+      updateEvent (dayId, originalEventDetails, updatedEventDetails) {
+        if (updatedEventDetails === '') 
+            updatedEventDetails = originalEventDetails;
+        this.$store.dispatch('updateEvent', { dayId, originalEventDetails, updatedEventDetails });
+        this.newEventDetails = '';
+    }
+  }
 };
 </script>
 

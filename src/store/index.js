@@ -11,6 +11,13 @@ const store = new Vuex.Store({
   getters: {
     getActiveDay: (state) => {
         return state.seedData.find((day) => day.active);
+    },
+    getEventObject: (state) => ({ dayId, eventDetails }) => {
+      console.log(`state = ${state}`);
+      console.log(`day id = ${dayId}. Event = ${JSON.stringify(eventDetails)}`);
+      const dayObject = state.seedData.find(day => day.id === dayId);
+      console.log(`day = ${dayObject.fullTitle}. Events = ${JSON.stringify(dayObject.events)}`);
+      return dayObject.events.find(event => event.details === eventDetails);
     }
   },
   mutations: {
@@ -21,6 +28,17 @@ const store = new Vuex.Store({
     },
     SUBMIT_EVENT(state, DayAndEventDetails) {
        DayAndEventDetails.activeDay.events.push({ "details": DayAndEventDetails.eventDetails, "edit": false });
+    },
+    UPDATE_EVENT(state, { eventObject, updatedEventDetails }) {
+        eventObject.details = updatedEventDetails;
+        eventObject.edit = false;
+    },
+    RESET_EDIT_OF_ALL_EVENTS(state) {
+      state.seedData.map((dayObj) => {
+        dayObj.events.map((event) => {
+          event.edit = false;
+        });
+      });
     }
   },
   actions: {
@@ -30,6 +48,16 @@ const store = new Vuex.Store({
     submitEvent(context, eventDetails) {
       const activeDay = this.getters.getActiveDay;
       context.commit('SUBMIT_EVENT', { activeDay, eventDetails});
+    },
+    setEditEvent(context, { dayId, eventDetails }) {
+      context.commit('RESET_EDIT_OF_ALL_EVENTS');
+      const eventObject = context.getters.getEventObject({ dayId, eventDetails });
+      eventObject.edit = true;
+    },
+    updateEvent(context, { dayId, originalEventDetails, updatedEventDetails }) {
+      const eventObject = context.getters.getEventObject({ dayId, eventDetails: originalEventDetails });
+      console.log(`Original details = ${originalEventDetails}. Event object = ${eventObject}`);
+      context.commit('UPDATE_EVENT', { eventObject, updatedEventDetails});
     }
   },
   modules: {
